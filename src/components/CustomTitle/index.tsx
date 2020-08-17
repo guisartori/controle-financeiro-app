@@ -11,7 +11,8 @@ const CustomTitle: React.FC<CustomTitleProps> = ({ title }) => {
 		<View
 			style={{
 				alignItems: "center",
-				marginTop: 40,
+				marginTop: 30,
+				marginBottom: 10,
 				width: "80%",
 				alignSelf: "center",
 				justifyContent: "center",
