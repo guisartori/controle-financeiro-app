@@ -24,7 +24,7 @@ const YieldOrExpense = () => {
 	const navigator = useNavigation();
 
 	const handleCancelPress = () => {
-		navigator.goBack();
+		navigator.navigate("Home");
 	};
 
 	const handleYieldPress = () => {

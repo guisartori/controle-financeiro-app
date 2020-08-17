@@ -26,7 +26,7 @@ const ExpenseValue = () => {
 	const navigator = useNavigation();
 
 	const handleCancelPress = () => {
-		navigator.goBack();
+		navigator.navigate("Home");
 	};
 
 	const handlePressNext = () => {
