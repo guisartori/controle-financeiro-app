@@ -30,7 +30,9 @@ const YieldOrigin = () => {
 	};
 
 	const handlePressNext = () => {
-		navigator.navigate("");
+		navigator.navigate("Congrats", {
+			text: "Parabéns!!! Continue assim até seu primeiro milhão!",
+		});
 	};
 
 	const handleChangeValueInput = () => {};

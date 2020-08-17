@@ -30,7 +30,9 @@ const ExpenseOrigin = () => {
 	};
 
 	const handlePressNext = () => {
-		navigator.navigate("");
+		navigator.navigate("Congrats", {
+			text: "Sua despesa foi salva, mas não esqueça de economizar!!",
+		});
 	};
 
 	const handleChangeValueInput = () => {};

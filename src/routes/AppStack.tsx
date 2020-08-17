@@ -7,6 +7,7 @@ import ExpenseValue from "../pages/ExpenseValue";
 import ExpenseOrigin from "../pages/ExpenseOrigin";
 import YieldValue from "../pages/YieldValue";
 import YieldOrigin from "../pages/YieldOrigin";
+import Congrats from "../pages/Congrats";
 
 export default function AppStack() {
 	const { Navigator, Screen } = createStackNavigator();
@@ -58,6 +59,13 @@ export default function AppStack() {
 				<Screen
 					name="YieldOrigin"
 					component={YieldOrigin}
+					options={{
+						headerShown: false,
+					}}
+				/>
+				<Screen
+					name="Congrats"
+					component={Congrats}
 					options={{
 						headerShown: false,
 					}}
