@@ -1,12 +1,21 @@
 import React from "react";
-import { TextInput } from "react-native";
+import {
+	TextInput,
+	TextInputChangeEventData,
+	NativeSyntheticEvent,
+} from "react-native";
 
 interface CustomTextProps {
-	onChange: () => void;
+	onChange: (text: string) => void;
 	variant: "default" | "number-pad";
+	value: string;
 }
 
-const CustomTextInput: React.FC<CustomTextProps> = ({ onChange, variant }) => {
+const CustomTextInput: React.FC<CustomTextProps> = ({
+	onChange,
+	variant,
+	value,
+}) => {
 	return (
 		<TextInput
 			style={{
@@ -20,7 +29,8 @@ const CustomTextInput: React.FC<CustomTextProps> = ({ onChange, variant }) => {
 			}}
 			keyboardType={variant}
 			autoFocus
-			onChange={onChange}
+			onChangeText={(text) => onChange(text)}
+			value={value}
 		/>
 	);
 };

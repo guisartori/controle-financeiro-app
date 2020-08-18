@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View, StatusBar, StyleSheet } from "react-native";
 import LinearBg from "../../components/LinearBg";
 import CustomTitle from "../../components/CustomTitle";
@@ -22,8 +22,18 @@ const styles = StyleSheet.create({
 	},
 });
 
-const YieldOrigin = () => {
+interface YieldOriginProps {
+	route: {
+		params: {
+			expense: boolean;
+			value: string;
+		};
+	};
+}
+
+const YieldOrigin: React.FC<YieldOriginProps> = ({ route }) => {
 	const navigator = useNavigation();
+	const [origin, setOrigin] = useState("");
 
 	const handleCancelPress = () => {
 		navigator.navigate("Home");
@@ -32,10 +42,11 @@ const YieldOrigin = () => {
 	const handlePressNext = () => {
 		navigator.navigate("Congrats", {
 			text: "Parabéns!!! Continue assim até seu primeiro milhão!",
+			expense: route.params.expense,
+			value: route.params.value,
+			origin,
 		});
 	};
-
-	const handleChangeValueInput = () => {};
 
 	return (
 		<View style={styles.page}>
@@ -46,7 +57,11 @@ const YieldOrigin = () => {
 			<LinearBg />
 			<CustomTitle title="Como você ganhou esse dinheiro?" />
 			<View style={styles.container}>
-				<CustomTextInput onChange={handleChangeValueInput} variant="default" />
+				<CustomTextInput
+					onChange={setOrigin}
+					variant="default"
+					value={origin}
+				/>
 				<NextButton onPress={handlePressNext} />
 			</View>
 			<CancelButton onPress={handleCancelPress} />

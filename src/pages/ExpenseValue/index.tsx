@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View, StatusBar, StyleSheet } from "react-native";
 import LinearBg from "../../components/LinearBg";
 import CustomTitle from "../../components/CustomTitle";
@@ -22,7 +22,16 @@ const styles = StyleSheet.create({
 	},
 });
 
-const ExpenseValue = () => {
+interface ExpenseValueProps {
+	route: {
+		params: {
+			expense: boolean;
+		};
+	};
+}
+
+const ExpenseValue: React.FC<ExpenseValueProps> = ({ route }) => {
+	const [value, setValue] = useState("");
 	const navigator = useNavigation();
 
 	const handleCancelPress = () => {
@@ -30,7 +39,10 @@ const ExpenseValue = () => {
 	};
 
 	const handlePressNext = () => {
-		navigator.navigate("ExpenseOrigin");
+		navigator.navigate("ExpenseOrigin", {
+			expense: route.params.expense,
+			value: value,
+		});
 	};
 
 	const handleChangeValueInput = () => {};
@@ -45,8 +57,9 @@ const ExpenseValue = () => {
 			<CustomTitle title="Andou gastando né? Quanto foi?" />
 			<View style={styles.container}>
 				<CustomTextInput
-					onChange={handleChangeValueInput}
+					onChange={setValue}
 					variant="number-pad"
+					value={value}
 				/>
 				<NextButton onPress={handlePressNext} />
 			</View>

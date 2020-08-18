@@ -28,11 +28,15 @@ const YieldOrExpense = () => {
 	};
 
 	const handleYieldPress = () => {
-		navigator.navigate("YieldValue");
+		navigator.navigate("YieldValue", {
+			expense: false,
+		});
 	};
 
 	const handleExpensePress = () => {
-		navigator.navigate("ExpenseValue");
+		navigator.navigate("ExpenseValue", {
+			expense: true,
+		});
 	};
 
 	return (

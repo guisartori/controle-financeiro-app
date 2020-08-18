@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View, StatusBar, StyleSheet } from "react-native";
 import LinearBg from "../../components/LinearBg";
 import CustomTitle from "../../components/CustomTitle";
@@ -22,8 +22,18 @@ const styles = StyleSheet.create({
 	},
 });
 
-const ExpenseOrigin = () => {
+interface ExpenseOriginProps {
+	route: {
+		params: {
+			expense: boolean;
+			value: string;
+		};
+	};
+}
+
+const ExpenseOrigin: React.FC<ExpenseOriginProps> = ({ route }) => {
 	const navigator = useNavigation();
+	const [origin, setOrigin] = useState("");
 
 	const handleCancelPress = () => {
 		navigator.navigate("Home");
@@ -32,6 +42,9 @@ const ExpenseOrigin = () => {
 	const handlePressNext = () => {
 		navigator.navigate("Congrats", {
 			text: "Sua despesa foi salva, mas não esqueça de economizar!!",
+			expense: route.params.expense,
+			value: route.params.value,
+			origin,
 		});
 	};
 
@@ -46,7 +59,11 @@ const ExpenseOrigin = () => {
 			<LinearBg />
 			<CustomTitle title="Como você ganhou esse dinheiro?" />
 			<View style={styles.container}>
-				<CustomTextInput onChange={handleChangeValueInput} variant="default" />
+				<CustomTextInput
+					onChange={setOrigin}
+					variant="default"
+					value={origin}
+				/>
 				<NextButton onPress={handlePressNext} />
 			</View>
 			<CancelButton onPress={handleCancelPress} />

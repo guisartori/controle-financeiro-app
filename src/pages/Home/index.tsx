@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StatusBar, ScrollView } from "react-native";
 import LinearBg from "../../components/LinearBg";
 import BottomAppBar from "../../components/BottomAppBar";
@@ -6,8 +6,9 @@ import { STATUS_BAR_BACKGROUND_COLOR_PRIMARY } from "../../styles/constants";
 import { useNavigation } from "@react-navigation/native";
 import CustomTitle from "../../components/CustomTitle";
 import Register from "../../components/Register";
+import AsyncStorage from "@react-native-community/async-storage";
 
-const registers = [
+const registersOld = [
 	{ expense: false, title: "Workana", value: "R$ 4000,00" },
 	{ expense: true, title: "Bolacha", value: "R$ 180,00" },
 	{ expense: true, title: "onibus", value: "R$ 5,00" },
@@ -22,10 +23,30 @@ const registers = [
 	{ expense: true, title: "onibus", value: "R$ 5,00" },
 ];
 
+interface PaymentRegister {
+	expense: boolean;
+	title: string;
+	value: string;
+}
+
 const Home = () => {
 	const { navigate } = useNavigation();
-	const openNewInputPage = () => {
+	const [paymentRegisters, setPaymentRegisters] = useState<PaymentRegister[]>();
+
+	const openNewInputPage = async () => {
 		navigate("YieldOrExpense");
+	};
+
+	useEffect(() => {
+		reloadPaymentRegisters();
+	}, []);
+
+	const reloadPaymentRegisters = () => {
+		AsyncStorage.getItem("@registers")
+			.then((asyncRegisters) => {
+				!!asyncRegisters && setPaymentRegisters(JSON.parse(asyncRegisters));
+			})
+			.catch((err) => console.log(err));
 	};
 
 	return (
@@ -48,9 +69,10 @@ const Home = () => {
 			>
 				<CustomTitle title="Agosto/2020" />
 				<ScrollView style={{ flex: 1, paddingTop: 16 }}>
-					{registers.map((register, index) => {
-						return <Register register={register} key={index} />;
-					})}
+					{!!paymentRegisters &&
+						paymentRegisters.map((register, index) => {
+							return <Register register={register} key={index} />;
+						})}
 				</ScrollView>
 				<View
 					style={{

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View, StatusBar, StyleSheet } from "react-native";
 import LinearBg from "../../components/LinearBg";
 import CustomTitle from "../../components/CustomTitle";
@@ -22,7 +22,16 @@ const styles = StyleSheet.create({
 	},
 });
 
-const YieldValue = () => {
+interface YieldValueProps {
+	route: {
+		params: {
+			expense: boolean;
+		};
+	};
+}
+
+const YieldValue: React.FC<YieldValueProps> = ({ route }) => {
+	const [value, setValue] = useState("");
 	const navigator = useNavigation();
 
 	const handleCancelPress = () => {
@@ -30,10 +39,11 @@ const YieldValue = () => {
 	};
 
 	const handlePressNext = () => {
-		navigator.navigate("YieldOrigin");
+		navigator.navigate("YieldOrigin", {
+			expense: route.params.expense,
+			value: value,
+		});
 	};
-
-	const handleChangeValueInput = () => {};
 
 	return (
 		<View style={styles.page}>
@@ -45,8 +55,9 @@ const YieldValue = () => {
 			<CustomTitle title="Me fala. Ganhou quanto dessa vez?" />
 			<View style={styles.container}>
 				<CustomTextInput
-					onChange={handleChangeValueInput}
+					onChange={setValue}
 					variant="number-pad"
+					value={value}
 				/>
 				<NextButton onPress={handlePressNext} />
 			</View>
