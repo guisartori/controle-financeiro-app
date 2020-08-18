@@ -60,7 +60,7 @@ const Congrats: React.FC<CongratsProps> = ({ route }) => {
 			.catch((err) => console.log(err));
 
 		setTimeout(() => {
-			navigator.navigate("Home");
+			navigator.navigate("Home", { reload: true });
 		}, 1500);
 	}, []);
 

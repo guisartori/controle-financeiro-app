@@ -29,7 +29,13 @@ interface PaymentRegister {
 	value: string;
 }
 
-const Home = () => {
+interface HomeProps {
+	route: {
+		params: { reload: boolean | undefined };
+	};
+}
+
+const Home: React.FC<HomeProps> = ({ route }) => {
 	const { navigate } = useNavigation();
 	const [paymentRegisters, setPaymentRegisters] = useState<PaymentRegister[]>();
 
@@ -39,7 +45,7 @@ const Home = () => {
 
 	useEffect(() => {
 		reloadPaymentRegisters();
-	}, []);
+	}, [route]);
 
 	const reloadPaymentRegisters = () => {
 		AsyncStorage.getItem("@registers")
