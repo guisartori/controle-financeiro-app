@@ -7,21 +7,9 @@ import { useNavigation } from "@react-navigation/native";
 import CustomTitle from "../../components/CustomTitle";
 import Register from "../../components/Register";
 import AsyncStorage from "@react-native-community/async-storage";
+import * as SQLite from "expo-sqlite";
 
-const registersOld = [
-	{ expense: false, title: "Workana", value: "R$ 4000,00" },
-	{ expense: true, title: "Bolacha", value: "R$ 180,00" },
-	{ expense: true, title: "onibus", value: "R$ 5,00" },
-	{ expense: true, title: "onibus", value: "R$ 5,00" },
-	{ expense: true, title: "onibus", value: "R$ 5,00" },
-	{ expense: true, title: "onibus", value: "R$ 5,00" },
-	{ expense: true, title: "onibus", value: "R$ 5,00" },
-	{ expense: true, title: "onibus", value: "R$ 5,00" },
-	{ expense: false, title: "Workana", value: "R$ 4000,00" },
-	{ expense: true, title: "onibus", value: "R$ 5,00" },
-	{ expense: true, title: "onibus", value: "R$ 5,00" },
-	{ expense: true, title: "onibus", value: "R$ 5,00" },
-];
+const db = SQLite.openDatabase("controle-financeiro.db");
 
 interface PaymentRegister {
 	expense: boolean;
@@ -37,7 +25,20 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ route }) => {
 	const { navigate } = useNavigation();
-	const [paymentRegisters, setPaymentRegisters] = useState<PaymentRegister[]>();
+	const [paymentRegisters, setPaymentRegisters] = useState();
+
+	useEffect(() => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				"select * from registers",
+				[],
+				(_, { rows: { _array } }) => {
+					setPaymentRegisters(_array);
+					console.log(_array);
+				}
+			);
+		});
+	}, []);
 
 	const openNewInputPage = async () => {
 		navigate("YieldOrExpense");
